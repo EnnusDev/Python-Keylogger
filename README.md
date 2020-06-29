@@ -2,7 +2,7 @@
 Advanced Windows Keylogger written in Python. It allows to get system information, to get keyboard inputs, to take screenshots and to send encrypted log to an Email.
 
 # Disclaimer
-This script was created only for good purposes. You may use it at your own risk.
+This Keylogger was created only for good purposes. You may use it at your own risk.
 The developer assumes no liability for illegal use or damage caused by the software.
 
 # Features
