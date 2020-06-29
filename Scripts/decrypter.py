@@ -1,11 +1,11 @@
 from cryptography.fernet import Fernet
-import os
 
-os.chdir(r"C:\Users\samue\OneDrive\Documenti\Coding\Python\KeyLogger-2.0\testing")
-
+#THIS KEY MUST BE THE SAME AS IN THE KEYLOGGER 
 key = "3F5_MIT38NjguwKLSztfCdeoOYPOMi3NKK0rEGCrlSg="
+#FILE TO DECRYPT
 logfile = "log.txt"
-newfile = "log-t.txt"
+#READABLE FILE
+newfile = "decrypted.txt"
 
 f = Fernet(key)
 a = open(newfile, "a")
@@ -20,3 +20,5 @@ for i in open(logfile, "rb"):
         print("Correct decrypt")
     except Exception as e:
         print("Error: " + e)
+        
+a.close()
